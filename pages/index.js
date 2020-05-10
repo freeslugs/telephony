@@ -59,7 +59,9 @@ const dictionary = {
   '_': "Underscore",
   '!': 'Exclamation Mark',
   '?': 'Question Mark',
-  "/": 'Forward Slash'
+  "/": 'Forward Slash',
+  '#': 'Hashtag',
+  '$': "Dollar sign",
 }
 
 const colors = [
