@@ -24,12 +24,20 @@ export default function MyApp(props) {
 
   }, []);
 
+  const description = 'Read email addresses aloud like a Lieutenant General'
+
   return (
     <React.Fragment>
       <Head>
         <title>Telephony</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content={description}>
+        <meta property="og:title" content="Telephony" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://get-telephony.now.sh/" />
+        <meta property="og:image" content="https://get-telephony.now.sh/image.png" />
+        <meta property="og:description" content={description} />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
