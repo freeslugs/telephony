@@ -17,7 +17,7 @@ import {
   IconButton,
 }  from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import MicOutlinedIcon from '@material-ui/icons/MicOutlined';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 // import useSound from 'use-sound';
 import {Howl, Howler} from 'howler';
 import theme from '../theme'
@@ -57,7 +57,8 @@ const dictionary = {
   ':': "Colon",
   ';': "Semicolon",
   '-': "Hyphen",
-  '_': "Underscore"
+  '_': "Underscore",
+  '!': 'Exclamation Mark'
 }
 
 const colors = [
@@ -136,6 +137,20 @@ export default function Index(props) {
     }
   })
 
+  const getMP3 = () => {
+    const query = words.map(w => w[0]).join(',+')
+    const mp3URL = `/api/tts?text=${query}`;
+    var sound = new Howl({
+      src: [mp3URL],
+      format: 'mp3',
+      autoplay: true,
+      // rate: 0.75,
+      onload: () => setLoading(false)
+    });
+    setLoading(true)
+    setMP3(sound)
+  }
+
   return (
     <Container component="main" maxWidth="md">
       {
@@ -175,21 +190,9 @@ export default function Index(props) {
           <Fab color='secondary' aria-label="add"
             style={{marginLeft: 20, boxShadow: 'none'}} 
             disabled={text.length == 0}
-            onClick={() => {
-              const query = words.map(w => w[0]).join('+')
-              const mp3URL = `/api/tts?text=${query}`;
-              var sound = new Howl({
-                src: [mp3URL],
-                format: 'mp3',
-                autoplay: true,
-                rate: 0.75,
-                onload: () => setLoading(false)
-              });
-              setLoading(true)
-              setMP3(sound)
-            }}
+            onClick={getMP3}
           >
-            { loading ? <CircularProgress /> : <MicOutlinedIcon fontSize="large" /> } 
+            { loading ? <CircularProgress /> : <PlayArrowIcon fontSize="large" /> } 
           </Fab>
         </Box>
       </div>
