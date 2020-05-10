@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
-import theme from './theme'
+import theme from '../theme'
 import Copyright from './Copyright';
 
 const dictionary = { 
