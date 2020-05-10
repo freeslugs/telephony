@@ -186,6 +186,7 @@ export default function Index(props) {
             name="text"
             autoFocus
             onChange={e => {
+              mp3 && mp3.stop()
               setLoading(false)
               setText(e.target.value)
             }}
