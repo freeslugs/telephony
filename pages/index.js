@@ -39,14 +39,19 @@ const dictionary = {
   X: "Xray",
   Y: "Yankee",
   Z: "Zulu",
+  ' ': "Space",
   '@': "At",
-  '.': "Period"
+  '.': "Period",
+  ',': "Comma",
+  ':': "Colon",
+  ';': "Semicolon",
+  '-': "Hyphen",
+  '_': "Underscore"
 }
 
 const colors = [
   '#1976D2',
   '#03A9F4',
-  '#00ACC1',
   '#009688',
   '#4CAF50',
   '#8BC34A',
@@ -108,7 +113,7 @@ export default function Index(props) {
           Telephony
         </Typography>
         <Typography component="h1" variant="h5" style={{marginTop: theme.spacing(1)}}>
-          Read email addresses aloud like a Lieutenant General 
+          Read email addresses aloud like a Lieutenant General <Link href="https://en.wikipedia.org/wiki/NATO_phonetic_alphabet">*</Link>
         </Typography>
         <form className={classes.form} noValidate width="xs">
           <TextField
