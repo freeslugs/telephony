@@ -18,7 +18,6 @@ import {
 }  from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-// import useSound from 'use-sound';
 import {Howl, Howler} from 'howler';
 import theme from '../theme'
 import Copyright from './Copyright';
@@ -58,7 +57,9 @@ const dictionary = {
   ';': "Semicolon",
   '-': "Hyphen",
   '_': "Underscore",
-  '!': 'Exclamation Mark'
+  '!': 'Exclamation Mark',
+  '?': 'Question Mark',
+  "/": 'Forward Slash'
 }
 
 const colors = [
@@ -105,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
     height: 60
   },
   card: {
-    padding: theme.spacing(0, 1), 
+    padding: theme.spacing(1, 2), 
     marginRight: 10, 
     marginBottom: theme.spacing(1),
     minWidth: 40,
@@ -203,7 +204,7 @@ export default function Index(props) {
             className={classes.card}
             style={{backgroundColor: colors[w[1]] }}
           >
-            <p>{w[0]}</p>
+            <Typography component="p" variant="h6">{w[0]}</Typography>
           </Paper>)
         }
       </Box>

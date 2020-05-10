@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../theme';
+import { initGoogleAnalytics, registerPageView } from "../utils/analytics.js";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -14,6 +15,13 @@ export default function MyApp(props) {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+
+    if (!window.GA_INITIALIZED) {
+      initGoogleAnalytics();
+      window.GA_INITIALIZED = true;
+    }
+    registerPageView();
+
   }, []);
 
   return (
