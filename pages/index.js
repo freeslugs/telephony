@@ -22,7 +22,7 @@ import {Howl, Howler} from 'howler';
 import theme from '../theme'
 import Copyright from './Copyright';
 
-const dictionary = { 
+const letters = {
   A: "Alfa",
   B: "Bravo",
   C: "Charlie",
@@ -46,9 +46,12 @@ const dictionary = {
   U: "Uniform",
   V: "Victor",
   W: "Whiskey",
-  X: "Xray",
+  X: "X-ray",
   Y: "Yankee",
   Z: "Zulu",
+}
+
+const punctuation = { 
   ' ': "Space",
   '@': "At",
   '.': "Period",
@@ -62,7 +65,14 @@ const dictionary = {
   "/": 'Forward Slash',
   '#': 'Hashtag',
   '$': "Dollar sign",
+  // ''': "Apostrophe",
+  '*': 'Asterisk',
+  '(': 'Left Parenthesis',
+  ')': 'Right Parenthesis',
+  '"': "Quotation Mark",
 }
+
+const dictionary =  {...letters, ...punctuation }
 
 const colors = [
   '#1976D2',
@@ -126,22 +136,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const charToWord = l => {
+  if(dictionary[l]) {
+    return [ dictionary[l].toUpperCase(), Object.keys(dictionary).indexOf(l) % colors.length ]   
+  }
+  return [l.toUpperCase(), colors.length ]
+}
+
 export default function Index(props) {
   const classes = useStyles(props);
   const [text, setText] = React.useState('');
   const [mp3, setMP3] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
   
-  const words = text.toUpperCase().split('').map(l => { 
-    if(dictionary[l]) {
-      return [ dictionary[l].toUpperCase(), Object.keys(dictionary).indexOf(l) % colors.length ]   
-    } else {
-      return [l.toUpperCase(), colors.length ]
-    }
-  })
-
+  const chars = text.toUpperCase().split('')
+  const words = chars.map(charToWord)
+  
   const getMP3 = () => {
-    const query = words.map(w => w[0]).join(',+')
+    const query = chars.map(char => {
+      const w = charToWord(char)[0]
+      if(letters[char]) {
+        return `${char}+as+in+${w}`
+      }
+      return w
+    })
+    .join(',+')
     const mp3URL = `/api/tts?text=${query}`;
     var sound = new Howl({
       src: [mp3URL],
@@ -151,6 +170,8 @@ export default function Index(props) {
       onload: () => setLoading(false)
     });
     setLoading(true)
+    // stop existing mp3 before playing new one 
+    mp3 && mp3.stop()
     setMP3(sound)
   }
 
@@ -186,7 +207,6 @@ export default function Index(props) {
             name="text"
             autoFocus
             onChange={e => {
-              mp3 && mp3.stop()
               setLoading(false)
               setText(e.target.value)
             }}
@@ -194,7 +214,10 @@ export default function Index(props) {
           <Fab color='secondary' aria-label="add"
             style={{marginLeft: 20, boxShadow: 'none'}} 
             disabled={text.length == 0}
-            onClick={getMP3}
+            onClick={() => {
+              // mp3 && (mp3.playing() ? mp3.pause() : mp3.play())
+              getMP3();
+            }}
           >
             { loading ? <CircularProgress /> : <PlayArrowIcon fontSize="large" /> } 
           </Fab>
