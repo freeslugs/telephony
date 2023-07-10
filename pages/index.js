@@ -160,7 +160,7 @@ export default function Index(props) {
       }
       return w
     }).join(',+')
-    const mp3URL = `http://localhost:3000/api/tts?text=${query}`;
+    const mp3URL = `/api/tts?text=${query}`;
     const audio = new Audio();
 
     audio.src = mp3URL;
