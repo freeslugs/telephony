@@ -153,6 +153,7 @@ export default function Index(props) {
   const words = chars.map(charToWord)
   
   const getMP3 = () => {
+    console.log('play this bad boy!~!')
     const query = chars.map(char => {
       const w = charToWord(char)[0]
       if(letters[char]) {
@@ -169,6 +170,7 @@ export default function Index(props) {
       // rate: 0.75,
       onload: () => setLoading(false)
     });
+    console.log(mp3URL)
     setLoading(true)
     // stop existing mp3 before playing new one 
     mp3 && mp3.stop()

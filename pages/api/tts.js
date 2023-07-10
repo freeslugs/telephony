@@ -1,16 +1,28 @@
+const axios = require('axios').default;
 const request = require('request')
 
 export default async (req, res) => {
-  const url = 'https://text-to-speech-demo.ng.bluemix.net/api/v3/synthesize'
-  const params = {
-    text: req.query.text,
-    voice: 'en-US_AllisonV3Voice',
-    download: 'true',
-    accept: 'audio/mp3',
-  }
+  
+  console.log(`query text: ${req.query.text}`)
+  const apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWY2ZjA5MDItNjJkYS00MzQxLTlkMDItMzA4MDEzMTJhMGJhIiwidHlwZSI6ImFwaV90b2tlbiJ9.pCsOPwREbokHmvH5SfbV3LQLi2UDtQpHFvdR6h8ctK0"
 
-  // console.log(url + '?' + new URLSearchParams(params).toString())
-  const proxy = request({ url: url + '?' + new URLSearchParams(params).toString() })
+  const options = {
+    method: 'POST',
+    url: 'https://api.edenai.run/v2/audio/text_to_speech',
+    headers: {
+      authorization: 'Bearer ' + apiKey,
+    },
+    data: {
+      providers: 'amazon',
+      language: 'en',
+      text: req.query.text,
+      option: 'FEMALE'
+    }
+  };
+
+  const response = await axios.request(options)
+  
+  const proxy = request(response.data.amazon.audio_resource_url)
   
   proxy.on('response', proxyResponse => {
     res.writeHead(200, {
