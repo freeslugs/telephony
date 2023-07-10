@@ -151,30 +151,24 @@ export default function Index(props) {
   
   const chars = text.toUpperCase().split('')
   const words = chars.map(charToWord)
-  
+
   const getMP3 = () => {
-    console.log('play this bad boy!~!')
     const query = chars.map(char => {
       const w = charToWord(char)[0]
       if(letters[char]) {
         return `${char}+as+in+${w}`
       }
       return w
-    })
-    .join(',+')
-    const mp3URL = `/api/tts?text=${query}`;
-    var sound = new Howl({
-      src: [mp3URL],
-      format: 'mp3',
-      autoplay: true,
-      // rate: 0.75,
-      onload: () => setLoading(false)
-    });
-    console.log(mp3URL)
-    setLoading(true)
+    }).join(',+')
+    const mp3URL = `http://localhost:3000/api/tts?text=${query}`;
+    const audio = new Audio();
+
+    audio.src = mp3URL;
+    audio.play()
+    setLoading(false)
     // stop existing mp3 before playing new one 
-    mp3 && mp3.stop()
-    setMP3(sound)
+    // mp3 && mp3.stop()
+    // setMP3(sound)
   }
 
   return (
